@@ -1,0 +1,301 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Product Service API",
+        "description": "Microservice de gestion des produits",
+        "contact": {
+            "email": "admin@productservice.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Serveur local"
+        },
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Liste des produits",
+                "operationId": "072fd15d3be55577bb08c19d19f1e75c",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "is_featured",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des produits"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Créer un produit",
+                "operationId": "eda0d526a50c0273ae224eb766440226",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "category_id",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "iPhone 15 Pro"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 999.99
+                                    },
+                                    "stock_quantity": {
+                                        "type": "integer",
+                                        "example": 50
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "active"
+                                    },
+                                    "sku": {
+                                        "type": "string",
+                                        "example": "IPH15PRO"
+                                    },
+                                    "short_description": {
+                                        "type": "string",
+                                        "example": "Description courte"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produit créé"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{slug}": {
+            "get": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Détail d'un produit",
+                "operationId": "14c804c42aa9790a8381c405cdd15069",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail du produit"
+                    },
+                    "404": {
+                        "description": "Produit non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{id}": {
+            "put": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Modifier un produit",
+                "operationId": "d3addbe72313169741e652404694ef9d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number"
+                                    },
+                                    "stock_quantity": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produit modifié"
+                    },
+                    "404": {
+                        "description": "Produit non trouvé"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Supprimer un produit",
+                "operationId": "bbf520f1a23d6a5f3dfb12813b5930d6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produit supprimé"
+                    },
+                    "404": {
+                        "description": "Produit non trouvé"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{id}/related": {
+            "get": {
+                "tags": [
+                    "Produits"
+                ],
+                "summary": "Produits similaires",
+                "operationId": "5576eced41ac021f96ddc5bfddfdca64",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produits similaires"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Produits",
+            "description": "Produits"
+        }
+    ]
+}
